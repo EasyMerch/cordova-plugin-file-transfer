@@ -64,6 +64,7 @@ extern NSString* const kOptionsKeyCookie;
 
 - (void)updateBytesExpected:(long long)newBytesExpected;
 - (void)cancelTransfer:(NSURLConnection*)connection;
+- (void)cancelTransferWithError:(NSURLConnection*)connection errorMessage:(NSString*)errorMessage;
 
 @property (strong) NSMutableData* responseData; // atomic
 @property (nonatomic, strong) NSDictionary* responseHeaders;
