@@ -289,7 +289,7 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
     delegate.source = source;
     delegate.target = server;
     delegate.trustAllHosts = trustAllHosts;
-    delegate.filePlugin = [self.commandDelegate getCommandInstance:@"File"];
+    delegate.filePlugin = (CDVFile *)[self.commandDelegate getCommandInstance:@"File"];
     delegate.chunkedMode = chunkedMode;
 
     return delegate;
@@ -328,7 +328,7 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
     if (sourceURL) {
         // Try to get a CDVFileSystem which will handle this file.
         // This requires talking to the current CDVFile plugin.
-        CDVFile* filePlugin = (CDVFile*)[self.commandDelegate getCommandInstance:@"File"];
+        CDVFile *filePlugin = (CDVFile *)[self.commandDelegate getCommandInstance:@"File"];
         fs = [filePlugin filesystemForURL:sourceURL];
     }
     if (fs) {
@@ -431,7 +431,7 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
          * Check here to see if it looks like the user passed in a raw filesystem path. (Perhaps they had the path saved, and were previously using it with the old version of File). If so, normalize it by removing empty path segments, and check with File to see if any of the installed filesystems will handle it. If so, then we will end up with a filesystem url to use for the remainder of this operation.
          */
         target = [target stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
-        CDVFile* filePlugin = (CDVFile*)[self.commandDelegate getCommandInstance:@"File"];
+        CDVFile *filePlugin = (CDVFile *)[self.commandDelegate getCommandInstance:@"File"];
         targetURL = [filePlugin fileSystemURLforLocalPath:target].url;
     } else {
         targetURL = [NSURL URLWithString:target];
@@ -478,7 +478,7 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
     delegate.target = [targetURL absoluteString];
     delegate.targetURL = targetURL;
     delegate.trustAllHosts = trustAllHosts;
-    delegate.filePlugin = [self.commandDelegate getCommandInstance:@"File"];
+    delegate.filePlugin = (CDVFile *)[self.commandDelegate getCommandInstance:@"File"];
     delegate.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
 		[delegate cancelTransferWithError:delegate.connection errorMessage:@"Bacground task terminated"];
     }];
